@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>!! SYSTEM BREACHED !!</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #00ff00;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 0;
+    }
+
+    #content {
+      position: absolute;
+      z-index: 1;
+      width: 100%;
+      top: 5%;
+      text-align: center;
+      color: #ff0040;
+      text-shadow: 0 0 15px red;
+      animation: glitchPulse 2s infinite alternate;
+    }
+
+    @keyframes glitchPulse {
+      0% { opacity: 0.85; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.02); }
+    }
+
+    h1 {
+      font-size: 3.8em;
+      margin-bottom: 10px;
+      animation: glitchText 1.5s infinite alternate;
+    }
+
+    @keyframes glitchText {
+      0%, 100% { text-shadow: 2px 2px #ff0040; }
+      50% { text-shadow: -2px -2px #ff0040; }
+    }
+
+    #console {
+      font-size: 1.2em;
+      color: #00ffff;
+      text-shadow: 0 0 5px cyan;
+      margin-top: 30px;
+      padding: 20px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: left;
+      background: rgba(0, 0, 0, 0.4);
+      border-left: 3px solid lime;
+      min-height: 200px;
+      box-shadow: 0 0 10px lime;
+    }
+
+    #cursor {
+      display: inline-block;
+      width: 10px;
+      height: 24px;
+      background: #00ffff;
+      margin-left: 4px;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { background: transparent; }
+    }
+
+    img {
+      margin-top: 20px;
+      width: 320px;
+      filter: drop-shadow(0 0 10px crimson);
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body onload="startMatrix(); typeConsole(); document.body.requestFullscreen();">
+
+<canvas id="matrix"></canvas>
+
+<div id="content">
+  <h1>HACKED BY Type your name here!</h1>
+  <img src="https://c.tenor.com/cmKzEULWN3QAAAAC/tenor.gif" alt="Elite Glitch Skull">
+  <div id="console">Initializing breach protocol<span id="cursor"></span></div>
+</div>
+
+<!-- Sound Layer: SoundHelix base + secondary distortion pulse -->
+<audio autoplay loop>
+  <source src="https://www.myinstants.com/media/sounds/deep-swoosh.mp3" type="audio/mpeg">
+</audio>
+<audio autoplay loop>
+  <source src="https://www.myinstants.com/media/sounds/deep-swoosh.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const consoleText = [
+    "[+] Establishing reverse shell .....",
+    "[+] Connected: 192.168.0.66 -> 10.0.0.1:1337",
+    "[+] Bypassed WAF",
+    "[+] Access Level: ROOT",
+    "[!] SYSTEM EXFILTRATION IN PROGRESS .....",
+    "[*] Uploading Exploit: exploit.php [██████████] 100%",
+    "[*] Mission Completed. #Type Your Name here"
+  ];
+
+  function typeConsole() {
+    const target = document.getElementById("console");
+    let i = 0;
+    function typeLine(line) {
+      let j = 0;
+      const interval = setInterval(() => {
+        if (j < line.length) {
+          target.innerHTML = target.innerHTML.replace('<span id="cursor"></span>', '') + line[j] + '<span id="cursor"></span>';
+          j++;
+        } else {
+          clearInterval(interval);
+          i++;
+          if (i < consoleText.length) {
+            setTimeout(() => typeLine(consoleText[i]), 500);
+          }
+        }
+      }, 50);
+    }
+    typeLine(consoleText[i]);
+  }
+
+  function startMatrix() {
+    const canvas = document.getElementById("matrix");
+    const ctx = canvas.getContext("2d");
+    canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+
+    const chars = "10☠▒█◘■$#@۞";
+    const fontSize = 18;
+    const columns = canvas.width / fontSize;
+    const drops = Array.from({ length: columns }, () => 1);
+
+    function drawMatrix() {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.07)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = "#00ff00";
+      ctx.font = fontSize + "px monospace";
+
+      for (let i = 0; i < drops.length; i++) {
+        const text = chars.charAt(Math.floor(Math.random() * chars.length));
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height || Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(drawMatrix, 33);
+  }
+</script>
+
+</body>
+</html>
+
